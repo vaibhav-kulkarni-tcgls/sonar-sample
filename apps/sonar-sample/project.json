@@ -1,0 +1,67 @@
+{
+  "name": "sonar-sample",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/sonar-sample/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/sonar-sample",
+        "main": "apps/sonar-sample/src/main.ts",
+        "tsConfig": "apps/sonar-sample/tsconfig.app.json",
+        "assets": [
+          "apps/sonar-sample/src/assets"
+        ],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/sonar-sample/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "sonar-sample:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "sonar-sample:build:development"
+        },
+        "production": {
+          "buildTarget": "sonar-sample:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "apps/sonar-sample/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/sonar-sample/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
